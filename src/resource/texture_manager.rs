@@ -13,8 +13,11 @@ use image::{self, DynamicImage};
 #[path = "../error.rs"]
 mod error;
 
+/// Wrapping mode for texture
 pub enum TextureWrapping {
+    /// Repeat texture
     Reapeat,
+    /// Clamp texture
     ClampToEdge,
 }
 
