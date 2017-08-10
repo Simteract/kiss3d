@@ -13,6 +13,11 @@ use image::{self, DynamicImage};
 #[path = "../error.rs"]
 mod error;
 
+pub enum TextureWrapping {
+    Reapeat,
+    ClampToEdge,
+}
+
 /// A gpu texture. It contains the texture id provided by opengl and is automatically released.
 pub struct Texture {
     id: GLuint
@@ -31,6 +36,22 @@ impl Texture {
     /// The opengl-provided texture id.
     pub fn id(&self) -> GLuint {
         self.id
+    }
+
+    /// Sets wrapping mode for texture.
+    pub fn set_wrapping(&self, clamping: TextureWrapping) {
+        verify!(gl::ActiveTexture(gl::TEXTURE0));
+        verify!(gl::BindTexture(gl::TEXTURE_2D, self.id()));
+        match clamping {
+            TextureWrapping::Reapeat => {
+                verify!(gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::REPEAT as i32));
+                verify!(gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, gl::REPEAT as i32));
+            }
+            TextureWrapping::ClampToEdge => {
+                verify!(gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::CLAMP_TO_EDGE as GLint));
+                verify!(gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, gl::CLAMP_TO_EDGE as GLint));
+            }
+        }        
     }
 }
 
