@@ -16,7 +16,7 @@ mod error;
 /// Wrapping mode for texture
 pub enum TextureWrapping {
     /// Repeat texture
-    Reapeat,
+    Repeat,
     /// Clamp texture
     ClampToEdge,
 }
@@ -46,7 +46,7 @@ impl Texture {
         verify!(gl::ActiveTexture(gl::TEXTURE0));
         verify!(gl::BindTexture(gl::TEXTURE_2D, self.id()));
         match clamping {
-            TextureWrapping::Reapeat => {
+            TextureWrapping::Repeat => {
                 verify!(gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::REPEAT as i32));
                 verify!(gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, gl::REPEAT as i32));
             }
