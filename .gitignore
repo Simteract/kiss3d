@@ -5,6 +5,8 @@
 *.rlib
 *.dSYM
 *.dylib
+*.dll
+Cargo.lock
 target
 bin/camera
 bin/cube
